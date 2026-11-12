@@ -1,0 +1,11 @@
+{
+  "name": "nao-ao-ajuste",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dados": "node scripts/build.mjs --snapshot",
+    "dev": "node scripts/build.mjs && npx --yes serve dist"
+  },
+  "engines": { "node": ">=20" }
+}
