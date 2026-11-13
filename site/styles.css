@@ -111,7 +111,7 @@ h1 .nao { display: block; width: fit-content; padding: .04em .14em 0; margin-bot
 .n { display: grid; place-items: center; flex: none; width: 34px; height: 34px; background: var(--amarelo); border: 2px solid var(--preto); border-radius: 50%; font: 400 1.15rem/1 var(--display); }
 
 .atalhos { display: flex; flex-wrap: wrap; gap: 8px; }
-.chip { padding: 8px 14px; border: 2px solid var(--preto); border-radius: 999px; background: var(--branco); font: 600 .92rem/1.2 var(--texto); color: var(--preto); cursor: pointer; }
+.chip { padding: 8px 14px; border: 2px solid var(--preto); border-radius: var(--raio); background: var(--branco); font: 600 .92rem/1.2 var(--texto); color: var(--preto); cursor: pointer; }
 .chip[aria-pressed="true"] { background: var(--preto); color: var(--branco); }
 
 .filtros { display: grid; gap: 12px; }
@@ -140,7 +140,7 @@ textarea { resize: vertical; }
 .item .contatos { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: .86rem; }
 .item .contatos a { font-weight: 600; text-underline-offset: 3px; }
 .item .contatos { align-items: center; }
-.item .contatos .rede { padding: 4px 10px; border: 2px solid var(--preto); border-radius: 999px; background: var(--branco); font-weight: 800; text-decoration: none; }
+.item .contatos .rede { padding: 4px 10px; border: 2px solid var(--preto); border-radius: var(--raio); background: var(--branco); font-weight: 800; text-decoration: none; }
 .item .contatos .rede:hover { background: var(--preto); color: var(--branco); }
 .vazio { padding: 18px; border: 2px dashed var(--linha); border-radius: var(--raio); color: var(--cinza); }
 #ver-mais { align-self: center; }
