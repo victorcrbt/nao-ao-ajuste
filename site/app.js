@@ -11,11 +11,11 @@
     senado: {
       um: 'senador', uma: 'senadora', plural: 'senadores', coletivo: 'Senhoras Senadoras e Senhores Senadores',
       foto: (p) => `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${p.id}.jpg`,
-      contexto: 'O projeto está no Plenário do Senado em regime de urgência. É aqui que a pressão decide: são necessários 41 votos para aprovar. A etiqueta ao lado de cada nome mostra o voto na urgência.',
-      assunto: 'Vote NÃO ao PLP 299/2026 — o ajuste fiscal não pode passar',
+      contexto: 'O texto-base passou por 45 a 31, mas a votação não acabou: na terça-feira (17) o Plenário vota quatro destaques, que ainda podem tirar trechos do projeto. A etiqueta ao lado de cada nome mostra o voto no texto-base.',
+      assunto: 'PLP 299/2026: na terça, vote para derrubar os cortes do ajuste fiscal',
       corpo: [
-        'Escrevo para pedir que V. Exa. vote NÃO ao PLP 299/2026, o projeto de ajuste fiscal em análise no Plenário do Senado.',
-        'O texto foi protocolado em 11/11 e levado a voto em regime de urgência, sem passar por nenhuma comissão. Ele reduz de 2,5% para 2% o limite de crescimento real das despesas, autoriza contingenciar mesmo quando a meta fiscal já está sendo cumprida, retira receitas do petróleo da base que define despesas mínimas como o piso da saúde e exige um plano para conter previdência, assistência social e abono salarial.',
+        'O Senado aprovou em 12/11, por 45 a 31, o texto-base do PLP 299/2026, o projeto de ajuste fiscal. Na terça-feira (17) o Plenário vota os destaques, e escrevo para pedir que V. Exa. vote para retirar os cortes do texto.',
+        'O projeto foi protocolado, levado a voto em urgência e aprovado em pouco mais de um dia, sem passar por nenhuma comissão. Ele reduz de 2,5% para 2% o limite de crescimento real das despesas, autoriza bloquear verbas mesmo quando a meta fiscal já está sendo cumprida, retira receitas do petróleo da base que define despesas mínimas como o piso da saúde e segura até 2030 repasses devidos a estados e municípios.',
         'Não foi para cortar gasto social que o povo foi às urnas. Se é preciso equilibrar as contas, que se cobre de quem tem mais: grandes fortunas, benefícios tributários e emendas parlamentares.',
         'Vou acompanhar e divulgar o seu voto.',
       ].join('\n\n'),
@@ -23,11 +23,11 @@
     camara: {
       um: 'deputado', uma: 'deputada', plural: 'deputados', coletivo: 'Senhoras Deputadas e Senhores Deputados',
       foto: (p) => `https://www.camara.leg.br/internet/deputado/bandep/${p.id}.jpg`,
-      contexto: 'Se passar no Senado, o projeto segue para a Câmara dos Deputados, onde precisa de 257 votos. Avise desde já os deputados do seu estado de que você está acompanhando.',
-      assunto: 'Não ao ajuste fiscal — vote NÃO ao PLP 299/2026 quando chegar à Câmara',
+      contexto: 'É aqui que o ajuste pode ser barrado. Depois dos destaques no Senado, o projeto segue para a Câmara dos Deputados, onde precisa de 257 votos. Cobre desde já os deputados do seu estado.',
+      assunto: 'Vote NÃO ao PLP 299/2026 — o ajuste fiscal não pode passar na Câmara',
       corpo: [
-        'Escrevo para pedir que V. Exa. se posicione desde já contra o PLP 299/2026, o projeto de ajuste fiscal que tramita em urgência no Senado e que, se aprovado, seguirá para a Câmara dos Deputados.',
-        'O texto reduz de 2,5% para 2% o limite de crescimento real das despesas, autoriza contingenciar mesmo quando a meta fiscal já está sendo cumprida, retira receitas do petróleo da base que define despesas mínimas como o piso da saúde e exige um plano para conter previdência, assistência social e abono salarial.',
+        'O Senado aprovou em 12/11, por 45 a 31, o texto-base do PLP 299/2026, o projeto de ajuste fiscal, que agora segue para a Câmara dos Deputados. Escrevo para pedir que V. Exa. vote NÃO e se posicione publicamente desde já.',
+        'O projeto passou no Senado em pouco mais de um dia, sem comissão. Ele reduz de 2,5% para 2% o limite de crescimento real das despesas, autoriza bloquear verbas mesmo quando a meta fiscal já está sendo cumprida, retira receitas do petróleo da base que define despesas mínimas como o piso da saúde e segura até 2030 repasses devidos a estados e municípios.',
         'Não foi para cortar gasto social que o povo foi às urnas. Se é preciso equilibrar as contas, que se cobre de quem tem mais: grandes fortunas, benefícios tributários e emendas parlamentares.',
         'Vou acompanhar e divulgar o seu voto.',
       ].join('\n\n'),
@@ -36,19 +36,19 @@
 
   const EXECUTIVO = [
     { cargo: 'Presidência da República', nome: 'Lula', arroba: '@LulaOficial',
-      texto: 'Pode retirar o apoio do governo à urgência e mandar a equipe econômica rever o pacote.' },
+      texto: 'Pode retirar o apoio do governo ao projeto antes da votação na Câmara e mandar a equipe econômica rever o pacote.' },
     { cargo: 'Ministério da Fazenda', nome: 'Dario Durigan', arroba: '@MinFazenda',
-      texto: 'A pasta defende o ajuste para cumprir a meta fiscal e negociou o texto apresentado no Senado.' },
+      texto: 'A pasta defende o ajuste para cumprir a meta fiscal e negociou o texto aprovado no Senado.' },
     { cargo: 'Ministério do Planejamento e Orçamento', nome: 'Bruno Moretti', arroba: '',
       texto: 'Apresentou o pacote ao Congresso e estimou o impacto em R$ 50 a 60 bilhões em 2027.' },
   ];
   const CORPO_EXEC = [
-    'Peço que o governo federal retire o apoio ao PLP 299/2026 e desista do ajuste fiscal em votação no Senado.',
-    'O projeto reduz de 2,5% para 2% o limite de crescimento real das despesas, amplia o contingenciamento mesmo com a meta fiscal cumprida, retira receitas do petróleo da base que define despesas mínimas como o piso da saúde e exige um plano para conter previdência, assistência social e abono salarial.',
+    'Peço que o governo federal retire o apoio ao PLP 299/2026 e desista do ajuste fiscal, aprovado em texto-base no Senado e a caminho da Câmara dos Deputados.',
+    'O projeto reduz de 2,5% para 2% o limite de crescimento real das despesas, amplia o bloqueio de verbas mesmo com a meta fiscal cumprida, retira receitas do petróleo da base que define despesas mínimas como o piso da saúde e segura até 2030 repasses devidos a estados e municípios.',
     'Não foi esse o programa que venceu a eleição. Se é preciso equilibrar as contas, que o governo cobre de quem tem mais: grandes fortunas, benefícios tributários e emendas parlamentares, sem cortar o que chega à população.',
   ].join('\n\n');
 
-  const TEXTO_REDES = 'O Senado quer votar às pressas um ajuste fiscal de até R$ 60 bilhões (PLP 299/2026). A urgência passou por 40 a 38 e o projeto precisa de 41 votos. Ele aperta o limite de gastos, amplia cortes no orçamento e mexe na base do piso da saúde.\n\nEm 2 minutos você cobra os senadores por e-mail:';
+  const TEXTO_REDES = 'O Senado aprovou por 45 a 31, em pouco mais de um dia e sem comissão, o texto-base de um ajuste fiscal de até R$ 60 bilhões (PLP 299/2026). Ele aperta o limite de gastos, amplia o bloqueio de verbas e mexe na base do piso da saúde.\n\nAinda dá para barrar: faltam os destaques no Senado (terça, 17) e toda a votação na Câmara. Em 2 minutos você cobra senadores e deputados por e-mail:';
 
   const estado = {
     casa: 'senado',
@@ -85,8 +85,8 @@
   /* ---------- dados ---------- */
   const voto = (p) => (estado.casa === 'senado' && estado.votacao ? estado.votacao.votos[p.id] || 'A' : '');
   const ROTULO_VOTO = () => {
-    const u = estado.votacao?.urgencia;
-    return { S: u ? 'Sim à urgência' : 'Votou sim', N: u ? 'Não à urgência' : 'Votou não', A: 'Não votou', P: 'Presidiu a sessão' };
+    const u = estado.votacao?.tipo === 'urgencia';
+    return { S: u ? 'Sim à urgência' : 'Sim ao ajuste', N: u ? 'Não à urgência' : 'Não ao ajuste', A: 'Não votou', P: 'Presidiu a sessão' };
   };
 
   function filtrados() {
@@ -109,7 +109,7 @@
 
     const at = $('#atalhos');
     if (estado.casa === 'senado' && estado.votacao) {
-      const u = estado.votacao.urgencia ? ' à urgência' : '';
+      const u = estado.votacao.tipo === 'urgencia' ? ' à urgência' : '';
       const n = (s) => lista.filter((p) => voto(p) === s).length;
       const chips = [['', `Todos (${lista.length})`], ['S', `Votaram SIM${u} (${n('S')})`], ['N', `Votaram NÃO${u} (${n('N')})`], ['A', `Não votaram (${n('A') + n('P')})`]];
       at.innerHTML = chips.map(([v, t]) => `<button type="button" class="chip" data-voto="${v}" aria-pressed="${f.voto === v}">${t}</button>`).join('');
@@ -219,7 +219,7 @@
   }
   function montarRedes() {
     $('#s-texto').value = `${TEXTO_REDES} ${SITE}\n\n#NãoAoAjusteFiscal #PLP299`;
-    const curto = 'O Senado quer votar às pressas um ajuste fiscal de até R$ 60 bi (PLP 299/2026). A urgência passou por 40 a 38; o projeto precisa de 41 votos. Cobre os senadores em 2 minutos:';
+    const curto = 'O Senado aprovou por 45 a 31 o texto-base do ajuste fiscal de até R$ 60 bi (PLP 299/2026). Ainda faltam os destaques (terça, 17) e a Câmara. Cobre senadores e deputados em 2 minutos:';
     $$('[data-share]').forEach((a) => {
       const rede = a.dataset.share;
       a.href = linkRede(rede, rede === 'x' || rede === 'bluesky' ? `${curto} #NãoAoAjusteFiscal` : TEXTO_REDES);
@@ -230,7 +230,7 @@
     $('#x-corpo').value = CORPO_EXEC;
     $('#exec').innerHTML = EXECUTIVO.map((e) => {
       const alvo = e.arroba || e.nome;
-      const post = `${alvo}, retire o ajuste fiscal do Senado. O PLP 299/2026 aperta o limite de gastos e mexe na base do piso da saúde. Não foi isso que venceu a eleição. #NãoAoAjusteFiscal`;
+      const post = `${alvo}, retire o apoio ao ajuste fiscal. O PLP 299/2026 aperta o limite de gastos e mexe na base do piso da saúde. Não foi isso que venceu a eleição. #NãoAoAjusteFiscal`;
       return `<li><span class="cargo">${e.cargo}</span><span class="nome">${e.nome}</span><p>${e.texto}</p>
         <a class="btn btn-contorno" href="${esc(linkRede('x', post))}" target="_blank" rel="noopener">Cobrar no X${e.arroba ? ` ${e.arroba}` : ''}</a></li>`;
     }).join('');
@@ -296,11 +296,12 @@
     try {
       const [sen, vot, dep] = await Promise.all([carregar('senadores'), carregar('votacoes'), carregar('deputados')]);
       estado.dados.senado = sen.dados; estado.dados.camara = dep.dados;
-      estado.votacao = vot.dados[vot.dados.length - 1] || null;
+      const ultima = (t) => vot.dados.filter((x) => x.tipo === t).pop();
+      estado.votacao = ultima('texto-base') || ultima('urgencia') || vot.dados[vot.dados.length - 1] || null;
       const v = estado.votacao;
       if (v) {
         const [a, m, d] = v.data.split('-');
-        $('#placar-tit').textContent = `${v.urgencia ? 'Votação da urgência' : 'Votação do projeto'} · ${d}/${m}/${a}`;
+        $('#placar-tit').textContent = `${v.tipo === 'urgencia' ? 'Votação da urgência' : 'Votação do texto-base'} · ${d}/${m}/${a}`;
         $('#placar-sim').textContent = v.sim; $('#placar-nao').textContent = v.nao;
       }
       const quando = new Date(sen.atualizado);

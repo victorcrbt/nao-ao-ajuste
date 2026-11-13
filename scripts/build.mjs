@@ -59,6 +59,13 @@ function sigla(v) {
   return 'A'; // ausente, missão, licença etc.
 }
 
+function tipoVotacao(d) {
+  if (/ressalvad/i.test(d)) return 'texto-base';
+  if (/destaque/i.test(d)) return 'destaque';
+  if (/requerimento/i.test(d)) return 'urgencia';
+  return 'outra';
+}
+
 async function votacoes() {
   const j = await getJSON(`https://legis.senado.leg.br/dadosabertos/votacao?idProcesso=${ID_PROCESSO}`);
   return arr(j)
@@ -72,7 +79,7 @@ async function votacoes() {
       return {
         data: String(v.dataSessao).slice(0, 10),
         descricao: v.descricaoVotacao,
-        urgencia: /requerimento/i.test(v.descricaoVotacao || ''),
+        tipo: tipoVotacao(v.descricaoVotacao || ''),
         sim: c.filter((s) => s === 'S').length,
         nao: c.filter((s) => s === 'N').length,
         votos,
