@@ -8,14 +8,15 @@
 
 :root {
   color-scheme: light;
-  --amarelo: #FFD60A;
-  --amarelo-escuro: #E9BE00;
-  --preto: #121212;
-  --vermelho: #D3121A;
-  --papel: #F5F4EF;
+  --amarelo: #FFD500;
+  --amarelo-escuro: #E6B800;
+  --preto: #2B0F4F; /* roxo profundo: faz o papel do escuro */
+  --roxo: #6A2C91;
+  --vermelho: #E30613;
+  --papel: #F7F4FA;
   --branco: #FFFFFF;
-  --cinza: #5C5A52;
-  --linha: #D9D6CB;
+  --cinza: #5E5270;
+  --linha: #DCD3E6;
   --zap: #128C4A;
   --display: "Anton", "Arial Narrow", Impact, sans-serif;
   --texto: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -61,8 +62,8 @@ h1 .nao { display: block; width: fit-content; padding: .04em .14em 0; margin-bot
 .placar-num div { display: flex; flex-direction: column; }
 .placar-num strong { font: 400 clamp(4rem, 16vw, 6rem)/.95 var(--display); font-variant-numeric: tabular-nums; }
 .placar-num span { font-weight: 800; letter-spacing: .1em; text-transform: uppercase; font-size: .85rem; }
-.placar-num i { font: 400 2.2rem/1 var(--display); color: var(--cinza); font-style: normal; }
-.placar-obs { margin-top: 14px; padding-top: 14px; border-top: 1px solid #3a3a3a; font-size: .98rem; }
+.placar-num i { font: 400 2.2rem/1 var(--display); color: var(--amarelo); font-style: normal; }
+.placar-obs { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--roxo); font-size: .98rem; }
 .placar-obs b { color: var(--amarelo); }
 
 /* Botões */
@@ -70,7 +71,7 @@ h1 .nao { display: block; width: fit-content; padding: .04em .14em 0; margin-bot
 .btn:active { transform: translateY(2px); }
 .btn-g { min-height: 54px; padding-inline: 22px; font-size: 1.08rem; }
 .btn-preto { background: var(--preto); color: var(--branco); }
-.btn-preto:hover { background: #000; }
+.btn-preto:hover { background: var(--roxo); border-color: var(--roxo); }
 .btn-amarelo { background: var(--amarelo); border-color: var(--amarelo); }
 .btn-zap { background: var(--zap); border-color: var(--zap); color: var(--branco); }
 .btn-contorno:hover { background: var(--preto); color: var(--branco); }
@@ -84,7 +85,7 @@ h1 .nao { display: block; width: fit-content; padding: .04em .14em 0; margin-bot
 .pontos li { padding-block: 20px; border-bottom: 1px solid var(--linha); }
 .ref { display: inline-block; padding: 2px 8px; background: var(--preto); color: var(--amarelo); font-size: .74rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .pontos h3 { margin-top: 10px; font: 800 1.25rem/1.2 var(--texto); }
-.pontos p { margin-top: 6px; color: #2c2b27; }
+.pontos p { margin-top: 6px; }
 .nota { margin-top: 22px; max-width: 70ch; font-size: .95rem; color: var(--cinza); }
 
 /* Consulta pública */
@@ -126,7 +127,7 @@ textarea { resize: vertical; }
 .lista { display: grid; gap: 8px; }
 @media (min-width: 720px) { .lista { grid-template-columns: 1fr 1fr; } }
 .item { display: grid; grid-template-columns: auto 48px minmax(0, 1fr); gap: 4px 12px; align-items: center; padding: 10px 12px; border: 2px solid var(--linha); border-radius: var(--raio); cursor: pointer; }
-.item:has(input:checked) { border-color: var(--preto); background: #FFF7CC; }
+.item:has(input:checked) { border-color: var(--preto); background: #FFF6BF; }
 .item input { width: 22px; height: 22px; padding: 0; accent-color: var(--preto); cursor: pointer; }
 .item img, .item .sem-foto { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; object-position: top; background: var(--linha); }
 .item .quem { min-width: 0; }
@@ -161,15 +162,16 @@ textarea { resize: vertical; }
 
 /* Vozes */
 .vozes { background: var(--preto); color: var(--branco); }
-.vozes .sub { color: #BDBAAE; }
+.vozes .sub { color: #D9CBEA; }
 .citacoes { display: grid; gap: 28px 40px; margin-top: 32px; }
 @media (min-width: 720px) { .citacoes { grid-template-columns: 1fr 1fr; } }
 .citacoes figure { padding-left: 16px; border-left: 5px solid var(--amarelo); }
 blockquote { font: 800 clamp(1.2rem, 3.4vw, 1.55rem)/1.25 var(--texto); text-wrap: balance; }
 blockquote::before { content: "“"; } blockquote::after { content: "”"; }
-figcaption { margin-top: 10px; font-size: .88rem; color: #BDBAAE; }
+figcaption { margin-top: 10px; font-size: .88rem; color: #D9CBEA; }
 figcaption b { display: block; color: var(--amarelo); font-size: 1rem; }
 .saida { margin-top: 40px; padding: 22px; background: var(--amarelo); color: var(--preto); border-radius: var(--raio); }
+.citacoes figure:nth-child(even) { border-left-color: var(--vermelho); }
 .saida h3 { font: 400 1.9rem/1 var(--display); text-transform: uppercase; }
 .saida p { margin-top: 10px; max-width: 75ch; }
 
