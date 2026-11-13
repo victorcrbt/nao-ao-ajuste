@@ -87,6 +87,15 @@ h1 .nao { display: block; width: fit-content; padding: .04em .14em 0; margin-bot
 .pontos p { margin-top: 6px; color: #2c2b27; }
 .nota { margin-top: 22px; max-width: 70ch; font-size: .95rem; color: var(--cinza); }
 
+/* Consulta pública */
+.consulta { background: var(--vermelho); color: var(--branco); padding-block: clamp(32px, 6vw, 56px); }
+.consulta-in { display: grid; gap: 20px; align-items: center; }
+@media (min-width: 880px) { .consulta-in { grid-template-columns: 1fr auto; gap: 48px; } }
+.consulta h2 { font-size: clamp(2rem, 6vw, 3rem); }
+.consulta p { margin-top: 10px; max-width: 62ch; }
+.consulta .btn { border-color: var(--preto); color: var(--preto); }
+.consulta :focus-visible { outline-color: var(--branco); }
+
 /* Ferramenta */
 .abas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 26px; }
 .abas button { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; padding: 12px 6px; border: 2px solid var(--preto); border-radius: var(--raio) var(--raio) 0 0; background: transparent; font: 400 clamp(1.15rem, 4.6vw, 1.7rem)/1 var(--display); text-transform: uppercase; color: var(--preto); cursor: pointer; }

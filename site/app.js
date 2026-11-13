@@ -48,7 +48,7 @@
     'Não foi esse o programa que venceu a eleição. Se é preciso equilibrar as contas, que o governo cobre de quem tem mais: grandes fortunas, benefícios tributários e emendas parlamentares, sem cortar o que chega à população.',
   ].join('\n\n');
 
-  const TEXTO_REDES = 'O Senado aprovou por 45 a 31, em pouco mais de um dia e sem comissão, o texto-base de um ajuste fiscal de até R$ 60 bilhões (PLP 299/2026). Ele aperta o limite de gastos, amplia o bloqueio de verbas e mexe na base do piso da saúde.\n\nAinda dá para barrar: faltam os destaques no Senado (terça, 17) e toda a votação na Câmara. Em 2 minutos você cobra senadores e deputados por e-mail:';
+  const TEXTO_REDES = 'O Senado aprovou por 45 a 31, em pouco mais de um dia e sem comissão, o texto-base de um ajuste fiscal de até R$ 60 bilhões (PLP 299/2026). Ele aperta o limite de gastos, amplia o bloqueio de verbas e mexe na base do piso da saúde.\n\nAinda dá para barrar: faltam os destaques no Senado (terça, 17) e toda a votação na Câmara. Em 2 minutos você cobra senadores e deputados por e-mail e vota NÃO na consulta pública do Senado:';
 
   const estado = {
     casa: 'senado',
