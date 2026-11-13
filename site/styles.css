@@ -140,7 +140,8 @@ textarea { resize: vertical; }
 .item .contatos { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: .86rem; }
 .item .contatos a { font-weight: 600; text-underline-offset: 3px; }
 .item .contatos { align-items: center; }
-.item .contatos .rede { padding: 4px 10px; border: 2px solid var(--preto); border-radius: var(--raio); background: var(--branco); font-weight: 800; text-decoration: none; }
+.item .contatos .rede { display: grid; place-items: center; width: 40px; height: 40px; border: 2px solid var(--preto); border-radius: var(--raio); background: var(--branco); color: var(--preto); }
+.item .contatos .rede svg { width: 20px; height: 20px; }
 .item .contatos .rede:hover { background: var(--preto); color: var(--branco); }
 .vazio { padding: 18px; border: 2px dashed var(--linha); border-radius: var(--raio); color: var(--cinza); }
 #ver-mais { align-self: center; }
@@ -175,6 +176,10 @@ figcaption { margin-top: 10px; font-size: .88rem; color: #D9CBEA; }
 figcaption b { display: block; color: var(--amarelo); font-size: 1rem; }
 .saida { margin-top: 40px; padding: 22px; background: var(--amarelo); color: var(--preto); border-radius: var(--raio); }
 .citacoes figure:nth-child(even) { border-left-color: var(--vermelho); }
+.tambem { margin-top: 28px; max-width: 75ch; color: #D9CBEA; }
+.tambem b { color: var(--branco); }
+.saida-carta { background: var(--vermelho); color: var(--branco); }
+.saida + .saida { margin-top: 16px; }
 .saida h3 { font: 400 1.9rem/1 var(--display); text-transform: uppercase; }
 .saida p { margin-top: 10px; max-width: 75ch; }
 

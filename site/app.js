@@ -23,7 +23,7 @@
     camara: {
       um: 'deputado', uma: 'deputada', plural: 'deputados', coletivo: 'Senhoras Deputadas e Senhores Deputados',
       foto: (p) => `https://www.camara.leg.br/internet/deputado/bandep/${p.id}.jpg`,
-      contexto: 'É aqui que o ajuste pode ser barrado. Depois dos destaques no Senado, o projeto segue para a Câmara dos Deputados, onde precisa de 257 votos. Filtre pelo seu estado, mande e-mail e cobre cada deputado nas redes: os perfis são os informados pelos gabinetes à Câmara.',
+      contexto: 'É aqui que o ajuste pode ser barrado. Depois dos destaques no Senado, o projeto segue para a Câmara dos Deputados, onde precisa de 257 votos. Filtre pelo seu estado, mande e-mail e cobre cada deputado nas redes. Os ícones ao lado de cada nome abrem um post pronto no X, o Instagram (com um comentário já copiado) ou o Facebook; os perfis são os informados pelos gabinetes à Câmara.',
       assunto: 'Vote NÃO ao PLP 299/2026 — o ajuste fiscal não pode passar na Câmara',
       corpo: [
         'O Senado aprovou em 12/11, por 45 a 31, o texto-base do PLP 299/2026, o projeto de ajuste fiscal, que agora segue para a Câmara dos Deputados. Escrevo para pedir que V. Exa. vote NÃO e se posicione publicamente desde já.',
@@ -101,11 +101,18 @@
   /* ---------- redes do parlamentar ---------- */
   const PEDIDO = 'vote NÃO ao PLP 299/2026. O ajuste fiscal aperta o limite de gastos e mexe na base do piso da saúde. Não foi isso que venceu a eleição.';
   const comentario = (p) => `@${p.ig}, ${PEDIDO} Estamos de olho no seu voto. #NãoAoAjusteFiscal`;
+  const ICONE = {
+    x: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>',
+    ig: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>',
+    fb: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.6 22v-8.2h2.8l.4-3.3h-3.2V8.4c0-.95.3-1.6 1.65-1.6h1.75V3.85c-.3-.04-1.35-.13-2.55-.13-2.55 0-4.25 1.55-4.25 4.4v2.38H7.4v3.3h2.8V22z"/></svg>',
+  };
   function botoesRedes(p) {
     const b = [];
-    if (p.x) b.push(`<a class="rede" href="${esc(linkRede('x', `Dep. @${p.x}, ${PEDIDO} #NãoAoAjusteFiscal`))}" target="_blank" rel="noopener" title="Abre um post pronto marcando @${esc(p.x)}">Postar no X</a>`);
-    if (p.ig) b.push(`<a class="rede" data-ig="${p.id}" href="https://www.instagram.com/${esc(p.ig)}/" target="_blank" rel="noopener" title="Copia um comentário e abre o perfil @${esc(p.ig)}">Instagram</a>`);
-    if (p.fb) b.push(`<a class="rede" href="https://www.facebook.com/${esc(p.fb)}" target="_blank" rel="noopener">Facebook</a>`);
+    const a = (rede, href, rotulo, extra = '') =>
+      `<a class="rede" href="${esc(href)}" target="_blank" rel="noopener" aria-label="${esc(rotulo)}" title="${esc(rotulo)}"${extra}>${ICONE[rede]}</a>`;
+    if (p.x) b.push(a('x', linkRede('x', `Dep. @${p.x}, ${PEDIDO} #NãoAoAjusteFiscal`), `Postar no X marcando @${p.x}`));
+    if (p.ig) b.push(a('ig', `https://www.instagram.com/${p.ig}/`, `Copiar comentário e abrir o Instagram @${p.ig}`, ` data-ig="${p.id}"`));
+    if (p.fb) b.push(a('fb', `https://www.facebook.com/${p.fb}`, `Abrir o Facebook de ${p.nome}`));
     return b.join('');
   }
 
