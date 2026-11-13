@@ -23,7 +23,7 @@
     camara: {
       um: 'deputado', uma: 'deputada', plural: 'deputados', coletivo: 'Senhoras Deputadas e Senhores Deputados',
       foto: (p) => `https://www.camara.leg.br/internet/deputado/bandep/${p.id}.jpg`,
-      contexto: 'É aqui que o ajuste pode ser barrado. Depois dos destaques no Senado, o projeto segue para a Câmara dos Deputados, onde precisa de 257 votos. Cobre desde já os deputados do seu estado.',
+      contexto: 'É aqui que o ajuste pode ser barrado. Depois dos destaques no Senado, o projeto segue para a Câmara dos Deputados, onde precisa de 257 votos. Filtre pelo seu estado, mande e-mail e cobre cada deputado nas redes: os perfis são os informados pelos gabinetes à Câmara.',
       assunto: 'Vote NÃO ao PLP 299/2026 — o ajuste fiscal não pode passar na Câmara',
       corpo: [
         'O Senado aprovou em 12/11, por 45 a 31, o texto-base do PLP 299/2026, o projeto de ajuste fiscal, que agora segue para a Câmara dos Deputados. Escrevo para pedir que V. Exa. vote NÃO e se posicione publicamente desde já.',
@@ -51,7 +51,7 @@
   const TEXTO_REDES = 'O Senado aprovou por 45 a 31, em pouco mais de um dia e sem comissão, o texto-base de um ajuste fiscal de até R$ 60 bilhões (PLP 299/2026). Ele aperta o limite de gastos, amplia o bloqueio de verbas e mexe na base do piso da saúde.\n\nAinda dá para barrar: faltam os destaques no Senado (terça, 17) e toda a votação na Câmara. Em 2 minutos você cobra senadores e deputados por e-mail e vota NÃO na consulta pública do Senado:';
 
   const estado = {
-    casa: 'senado',
+    casa: 'camara',
     dados: { senado: [], camara: [] },
     sel: { senado: new Set(), camara: new Set() },
     filtro: { senado: { uf: '', partido: '', busca: '', voto: '' }, camara: { uf: '', partido: '', busca: '', voto: '' } },
@@ -98,6 +98,17 @@
   }
   const selecionados = () => estado.dados[estado.casa].filter((p) => estado.sel[estado.casa].has(p.id));
 
+  /* ---------- redes do parlamentar ---------- */
+  const PEDIDO = 'vote NÃO ao PLP 299/2026. O ajuste fiscal aperta o limite de gastos e mexe na base do piso da saúde. Não foi isso que venceu a eleição.';
+  const comentario = (p) => `@${p.ig}, ${PEDIDO} Estamos de olho no seu voto. #NãoAoAjusteFiscal`;
+  function botoesRedes(p) {
+    const b = [];
+    if (p.x) b.push(`<a class="rede" href="${esc(linkRede('x', `Dep. @${p.x}, ${PEDIDO} #NãoAoAjusteFiscal`))}" target="_blank" rel="noopener" title="Abre um post pronto marcando @${esc(p.x)}">Postar no X</a>`);
+    if (p.ig) b.push(`<a class="rede" data-ig="${p.id}" href="https://www.instagram.com/${esc(p.ig)}/" target="_blank" rel="noopener" title="Copia um comentário e abre o perfil @${esc(p.ig)}">Instagram</a>`);
+    if (p.fb) b.push(`<a class="rede" href="https://www.facebook.com/${esc(p.fb)}" target="_blank" rel="noopener">Facebook</a>`);
+    return b.join('');
+  }
+
   /* ---------- lista ---------- */
   function montarFiltros() {
     const lista = estado.dados[estado.casa];
@@ -130,7 +141,7 @@
         <img src="${c.foto(p)}" alt="" width="48" height="48" loading="lazy" decoding="async">
         <span class="quem"><span class="nome">${esc(p.nome)}</span>
           <span class="meta">${esc(p.partido)}-${p.uf}${v ? ` <span class="voto voto-${v}">${rot[v]}</span>` : ''}</span></span>
-        <span class="contatos">${p.tel ? `<a href="tel:+55${p.tel.replace(/\D/g, '')}">Ligar ${p.tel}</a>` : ''}${p.email ? '' : '<span>Sem e-mail divulgado</span>'}</span>
+        <span class="contatos">${p.tel ? `<a href="tel:+55${p.tel.replace(/\D/g, '')}">Ligar ${p.tel}</a>` : ''}${p.email ? '' : '<span>Sem e-mail divulgado</span>'}${botoesRedes(p)}</span>
       </label></li>`;
     }).join('') : '<li class="vazio">Ninguém encontrado com esses filtros.</li>';
     $$('#lista img').forEach((img) => img.addEventListener('error', () => {
@@ -253,6 +264,11 @@
       estado.sel[estado.casa][e.target.checked ? 'add' : 'delete'](id);
       atualizarEnvio();
     });
+    $('#lista').addEventListener('click', (e) => {
+      const a = e.target.closest('a[data-ig]'); if (!a) return;
+      const p = estado.dados[estado.casa].find((x) => x.id === Number(a.dataset.ig));
+      if (p) copiar(comentario(p), 'Comentário copiado. Cole num post do perfil que abriu.');
+    });
     $('#marcar-todos').addEventListener('click', () => {
       filtrados().filter((p) => p.email).forEach((p) => estado.sel[estado.casa].add(p.id));
       desenharLista();
@@ -306,7 +322,7 @@
       }
       const quando = new Date(sen.atualizado);
       if (!isNaN(quando)) $('#atualizado').textContent = `Dados atualizados em ${quando.toLocaleDateString('pt-BR')}.`;
-      trocarCasa('senado');
+      trocarCasa('camara');
     } catch {
       $('#lista').innerHTML = '<li class="vazio">Não foi possível carregar a lista. Recarregue a página.</li>';
     }

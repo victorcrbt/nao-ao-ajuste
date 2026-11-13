@@ -87,6 +87,28 @@ async function votacoes() {
     });
 }
 
+// Perfis informados pelo gabinete no cadastro da Câmara. Só entra o que tem
+// formato reconhecível; o resto é descartado em vez de adivinhado.
+const NAO_PERFIL = new Set(['intent', 'share', 'home', 'search', 'i', 'hashtag', 'p', 'reel', 'reels', 'explore', 'accounts', 'stories', 'tv']);
+export function redes(urls) {
+  const r = {};
+  for (const bruto of arr(urls)) {
+    const u = String(bruto || '').trim();
+    let m;
+    if (!r.x && (m = u.match(/(?:^|[/.@])(?:twitter|x)\.com\/(?:#!\/)?@?([A-Za-z0-9_]{1,15})(?=[/?#]|$)/i)) && !NAO_PERFIL.has(m[1].toLowerCase())) r.x = m[1];
+    else if (!r.ig && (m = u.match(/instagram\.com\/@?([A-Za-z0-9_.]{1,30})(?=[/?#]|$)/i)) && !NAO_PERFIL.has(m[1].toLowerCase())) r.ig = m[1].replace(/\.$/, '');
+    else if (!r.fb && (m = u.match(/facebook\.com\/((?:profile\.php\?id=\d+)|(?:people\/[^/?#]+\/\d+)|(?:[A-Za-z0-9.\-_%]{2,80}))/i)) && !/^(sharer|share|pages$|groups|watch|photo)/i.test(m[1])) r.fb = m[1];
+  }
+  return r;
+}
+
+async function emLotes(itens, n, fn) {
+  const fila = [...itens];
+  await Promise.all(Array.from({ length: n }, async () => {
+    for (let it = fila.shift(); it; it = fila.shift()) await fn(it);
+  }));
+}
+
 async function deputados() {
   const j = await getJSON(
     'https://dadosabertos.camara.leg.br/api/v2/deputados?itens=1000&ordem=ASC&ordenarPor=nome',
@@ -99,6 +121,24 @@ async function deputados() {
     email: d.email || '',
   }));
   if (lista.length < 450) throw new Error('lista de deputados incompleta');
+
+  // Redes sociais: uma consulta por deputado. Se alguma falhar, vale o retrato salvo.
+  const salvo = new Map();
+  try {
+    for (const d of JSON.parse(await readFile(join(SRC, 'data', 'deputados.json'), 'utf8')).dados) salvo.set(d.id, d);
+  } catch { /* sem retrato */ }
+  let falhas = 0;
+  await emLotes(lista, 8, async (d) => {
+    try {
+      const det = await getJSON(`https://dadosabertos.camara.leg.br/api/v2/deputados/${d.id}`);
+      Object.assign(d, redes(det.dados?.redeSocial));
+    } catch {
+      falhas += 1;
+      const s = salvo.get(d.id) || {};
+      for (const k of ['x', 'ig', 'fb']) if (s[k]) d[k] = s[k];
+    }
+  });
+  if (falhas) console.warn(`!!  redes de ${falhas} deputados vieram do retrato salvo`);
   return lista;
 }
 
