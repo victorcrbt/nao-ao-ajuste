@@ -54,7 +54,7 @@
     casa: 'camara',
     dados: { senado: [], camara: [] },
     sel: { senado: new Set(), camara: new Set() },
-    filtro: { senado: { uf: '', partido: '', busca: '', voto: '' }, camara: { uf: '', partido: '', busca: '', voto: '' } },
+    filtro: { senado: { uf: [], partido: [], busca: '', voto: '' }, camara: { uf: [], partido: [], busca: '', voto: '' } },
     limite: PAGINA,
     votacao: null,
     texto: {},
@@ -93,7 +93,7 @@
     const f = estado.filtro[estado.casa];
     const b = semAcento(f.busca.trim());
     return estado.dados[estado.casa].filter((p) =>
-      (!f.uf || p.uf === f.uf) && (!f.partido || p.partido === f.partido) &&
+      (!f.uf.length || f.uf.includes(p.uf)) && (!f.partido.length || f.partido.includes(p.partido)) &&
       (!f.voto || voto(p) === f.voto) && (!b || semAcento(p.nome).includes(b)));
   }
   const selecionados = () => estado.dados[estado.casa].filter((p) => estado.sel[estado.casa].has(p.id));
@@ -116,14 +116,98 @@
     return b.join('');
   }
 
+  /* ---------- filtros com autocomplete e seleção múltipla ---------- */
+  const ESTADOS = { AC: 'Acre', AL: 'Alagoas', AP: 'Amapá', AM: 'Amazonas', BA: 'Bahia', CE: 'Ceará', DF: 'Distrito Federal', ES: 'Espírito Santo', GO: 'Goiás', MA: 'Maranhão', MT: 'Mato Grosso', MS: 'Mato Grosso do Sul', MG: 'Minas Gerais', PA: 'Pará', PB: 'Paraíba', PR: 'Paraná', PE: 'Pernambuco', PI: 'Piauí', RJ: 'Rio de Janeiro', RN: 'Rio Grande do Norte', RS: 'Rio Grande do Sul', RO: 'Rondônia', RR: 'Roraima', SC: 'Santa Catarina', SP: 'São Paulo', SE: 'Sergipe', TO: 'Tocantins' };
+  const multi = {};
+  const opcoesDe = (chave) => {
+    const cont = new Map();
+    for (const p of estado.dados[estado.casa]) cont.set(p[chave], (cont.get(p[chave]) || 0) + 1);
+    return [...cont].sort((a, b) => a[0].localeCompare(b[0], 'pt-BR')).map(([v, n]) => {
+      const nome = chave === 'uf' ? ESTADOS[v] || '' : '';
+      return { valor: v, texto: nome ? `${v} · ${nome}` : v, busca: semAcento(`${v} ${nome}`), n };
+    });
+  };
+
+  function criarMulti(raiz, chave, vazio) {
+    const caixa = raiz.querySelector('.ms-caixa');
+    const campo = raiz.querySelector('input');
+    const lista = raiz.querySelector('.ms-lista');
+    let ativo = 0;
+    let visiveis = [];
+    const sel = () => estado.filtro[estado.casa][chave];
+    const aberta = () => !lista.hidden;
+
+    function abrir() { lista.hidden = false; campo.setAttribute('aria-expanded', 'true'); }
+    function fechar() { lista.hidden = true; campo.setAttribute('aria-expanded', 'false'); campo.removeAttribute('aria-activedescendant'); }
+
+    function chips() {
+      caixa.querySelectorAll('.ms-chip').forEach((c) => c.remove());
+      for (const v of sel()) {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'ms-chip'; b.dataset.v = v;
+        b.setAttribute('aria-label', `Remover ${v}`);
+        b.innerHTML = `${esc(v)} <span aria-hidden="true">×</span>`;
+        caixa.insertBefore(b, campo);
+      }
+      campo.placeholder = sel().length ? 'Adicionar mais' : vazio;
+    }
+
+    function opcoes() {
+      const q = semAcento(campo.value.trim());
+      visiveis = opcoesDe(chave).filter((o) => !q || o.busca.includes(q));
+      ativo = Math.min(Math.max(ativo, 0), Math.max(visiveis.length - 1, 0));
+      lista.innerHTML = visiveis.length ? visiveis.map((o, i) => {
+        const on = sel().includes(o.valor);
+        return `<li role="option" id="${lista.id}-${i}" class="ms-op${i === ativo ? ' ativo' : ''}" data-v="${esc(o.valor)}" aria-selected="${on}"><span class="ms-ck" aria-hidden="true"></span><span>${esc(o.texto)}</span><small>${o.n}</small></li>`;
+      }).join('') : '<li class="ms-vazio" role="presentation">Nada encontrado</li>';
+      if (visiveis.length) campo.setAttribute('aria-activedescendant', `${lista.id}-${ativo}`);
+    }
+
+    function alternar(v) {
+      const a = sel(); const i = a.indexOf(v);
+      if (i >= 0) a.splice(i, 1); else a.push(v);
+      campo.value = '';
+      estado.limite = PAGINA;
+      chips(); opcoes(); desenharLista();
+    }
+    function mover(d) {
+      if (!visiveis.length) return;
+      ativo = (ativo + d + visiveis.length) % visiveis.length;
+      opcoes();
+      lista.querySelector('.ativo')?.scrollIntoView({ block: 'nearest' });
+    }
+
+    caixa.addEventListener('click', (e) => {
+      const c = e.target.closest('.ms-chip');
+      if (c) { alternar(c.dataset.v); campo.focus(); return; }
+      campo.focus(); abrir(); opcoes();
+    });
+    campo.addEventListener('focus', () => { abrir(); opcoes(); });
+    campo.addEventListener('input', () => { ativo = 0; abrir(); opcoes(); });
+    campo.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); if (!aberta()) { abrir(); opcoes(); } else mover(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); if (aberta()) mover(-1); }
+      else if (e.key === 'Enter') { if (aberta() && visiveis[ativo]) { e.preventDefault(); alternar(visiveis[ativo].valor); } }
+      else if (e.key === 'Escape') { if (aberta()) { e.preventDefault(); fechar(); } }
+      else if (e.key === 'Backspace' && !campo.value && sel().length) alternar(sel()[sel().length - 1]);
+    });
+    lista.addEventListener('mousedown', (e) => e.preventDefault()); // mantém o foco no campo
+    lista.addEventListener('click', (e) => {
+      const li = e.target.closest('.ms-op'); if (!li) return;
+      ativo = visiveis.findIndex((o) => o.valor === li.dataset.v);
+      alternar(li.dataset.v);
+    });
+    raiz.addEventListener('focusout', (e) => { if (!raiz.contains(e.relatedTarget)) fechar(); });
+
+    return { renderizar() { campo.value = ''; ativo = 0; chips(); opcoes(); fechar(); } };
+  }
+
   /* ---------- lista ---------- */
   function montarFiltros() {
     const lista = estado.dados[estado.casa];
     const f = estado.filtro[estado.casa];
-    const opcoes = (vals, todos) => `<option value="">${todos}</option>` + vals.map((v) => `<option>${esc(v)}</option>`).join('');
-    $('#f-uf').innerHTML = opcoes([...new Set(lista.map((p) => p.uf))].sort(), 'Todos os estados');
-    $('#f-partido').innerHTML = opcoes([...new Set(lista.map((p) => p.partido))].sort((a, b) => a.localeCompare(b, 'pt-BR')), 'Todos os partidos');
-    $('#f-uf').value = f.uf; $('#f-partido').value = f.partido; $('#f-busca').value = f.busca;
+    multi.uf.renderizar(); multi.partido.renderizar();
+    $('#f-busca').value = f.busca;
 
     const at = $('#atalhos');
     if (estado.casa === 'senado' && estado.votacao) {
@@ -265,7 +349,9 @@
     const aoFiltrar = (campo, chave) => $(campo).addEventListener('input', (e) => {
       estado.filtro[estado.casa][chave] = e.target.value; estado.limite = PAGINA; desenharLista();
     });
-    aoFiltrar('#f-uf', 'uf'); aoFiltrar('#f-partido', 'partido'); aoFiltrar('#f-busca', 'busca');
+    aoFiltrar('#f-busca', 'busca');
+    multi.uf = criarMulti($('#f-uf'), 'uf', 'Todos os estados');
+    multi.partido = criarMulti($('#f-partido'), 'partido', 'Todos os partidos');
     $('#lista').addEventListener('change', (e) => {
       const id = Number(e.target.dataset.id); if (!id) return;
       estado.sel[estado.casa][e.target.checked ? 'add' : 'delete'](id);

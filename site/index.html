@@ -21,6 +21,8 @@
 <link rel="stylesheet" href="/styles.css">
 <script>window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };</script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };</script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -126,12 +128,20 @@
         <h3><span class="n">1</span> Escolha quem cobrar</h3>
         <div class="atalhos" id="atalhos"></div>
         <div class="filtros">
-          <label class="campo"><span>Estado</span>
-            <select id="f-uf"><option value="">Todos os estados</option></select>
-          </label>
-          <label class="campo"><span>Partido</span>
-            <select id="f-partido"><option value="">Todos os partidos</option></select>
-          </label>
+          <div class="campo">
+            <label for="f-uf-campo">Estado</label>
+            <div class="ms" id="f-uf">
+              <div class="ms-caixa"><input id="f-uf-campo" type="text" role="combobox" aria-expanded="false" aria-controls="f-uf-lista" aria-autocomplete="list" autocomplete="off" placeholder="Todos os estados"></div>
+              <ul class="ms-lista" id="f-uf-lista" role="listbox" aria-multiselectable="true" aria-label="Estados" hidden></ul>
+            </div>
+          </div>
+          <div class="campo">
+            <label for="f-partido-campo">Partido</label>
+            <div class="ms" id="f-partido">
+              <div class="ms-caixa"><input id="f-partido-campo" type="text" role="combobox" aria-expanded="false" aria-controls="f-partido-lista" aria-autocomplete="list" autocomplete="off" placeholder="Todos os partidos"></div>
+              <ul class="ms-lista" id="f-partido-lista" role="listbox" aria-multiselectable="true" aria-label="Partidos" hidden></ul>
+            </div>
+          </div>
           <label class="campo campo-busca"><span>Buscar por nome</span>
             <input id="f-busca" type="search" placeholder="Digite um nome" autocomplete="off">
           </label>
